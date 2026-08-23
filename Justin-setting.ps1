@@ -16,36 +16,48 @@ if (-not $Install) {
 
     $form = [Windows.Forms.Form]::new()
     $form.Text = 'Justin Setting'
-    $form.Size = [Drawing.Size]::new(720, 500)
+    $form.Size = [Drawing.Size]::new(1080, 620)
     $form.StartPosition = 'CenterScreen'
     $form.FormBorderStyle = 'FixedSingle'
     $form.MaximizeBox = $false
-    $form.BackColor = [Drawing.Color]::FromArgb(15,18,25)
+    $form.BackColor = [Drawing.Color]::FromArgb(7,8,11)
     $form.ForeColor = [Drawing.Color]::White
     $form.Font = [Drawing.Font]::new('Segoe UI',10)
+    try {
+        $backgroundUrl = 'https://raw.githubusercontent.com/komchan5/project-justin/main/project-justin-background.png'
+        $backgroundBytes = [Net.WebClient]::new().DownloadData($backgroundUrl)
+        $backgroundStream = [IO.MemoryStream]::new($backgroundBytes)
+        $loadedBackground = [Drawing.Image]::FromStream($backgroundStream)
+        $form.BackgroundImage = [Drawing.Bitmap]::new($loadedBackground)
+        $form.BackgroundImageLayout = 'Stretch'
+        $loadedBackground.Dispose()
+        $backgroundStream.Dispose()
+    } catch {
+        # Keep the built-in dark fallback if the optional artwork is unavailable.
+    }
 
     $title = [Windows.Forms.Label]::new()
-    $title.Text = 'JUSTIN SETTING'
-    $title.Font = [Drawing.Font]::new('Segoe UI Semibold',25)
+    $title.Text = 'PROJECT JUSTIN'
+    $title.Font = [Drawing.Font]::new('Segoe UI Black',27)
     $title.Location = [Drawing.Point]::new(40,30)
     $title.AutoSize = $true
     $form.Controls.Add($title)
 
     $sub = [Windows.Forms.Label]::new()
-    $sub.Text = 'FiveM performance and low-latency profile'
+    $sub.Text = 'MAX PERFORMANCE  •  NETWORK OPTIMIZER'
     $sub.ForeColor = [Drawing.Color]::FromArgb(155,164,184)
     $sub.Location = [Drawing.Point]::new(43,76)
     $sub.AutoSize = $true
     $form.Controls.Add($sub)
 
     $panel = [Windows.Forms.Panel]::new()
-    $panel.Location = [Drawing.Point]::new(40,115)
-    $panel.Size = [Drawing.Size]::new(622,260)
-    $panel.BackColor = [Drawing.Color]::FromArgb(25,29,39)
+    $panel.Location = [Drawing.Point]::new(40,125)
+    $panel.Size = [Drawing.Size]::new(430,365)
+    $panel.BackColor = [Drawing.Color]::FromArgb(18,19,23)
     $form.Controls.Add($panel)
 
     $label = [Windows.Forms.Label]::new()
-    $label.Text = 'ACCESS KEY'
+    $label.Text = 'LICENSE KEY'
     $label.ForeColor = [Drawing.Color]::FromArgb(155,164,184)
     $label.Location = [Drawing.Point]::new(28,24)
     $label.AutoSize = $true
@@ -53,39 +65,133 @@ if (-not $Install) {
 
     $key = [Windows.Forms.TextBox]::new()
     $key.Location = [Drawing.Point]::new(30,50)
-    $key.Size = [Drawing.Size]::new(560,32)
+    $key.Size = [Drawing.Size]::new(370,34)
     $key.Font = [Drawing.Font]::new('Segoe UI',12)
-    $key.BackColor = [Drawing.Color]::FromArgb(38,43,56)
+    $key.BackColor = [Drawing.Color]::FromArgb(28,29,34)
     $key.ForeColor = [Drawing.Color]::White
     $panel.Controls.Add($key)
 
     $features = [Windows.Forms.Label]::new()
-    $features.Text = "Power Plan  •  Network Latency  •  Gaming Priority`r`nGame Mode  •  HAGS  •  FiveM Timer Resolution"
-    $features.Location = [Drawing.Point]::new(30,100)
-    $features.Size = [Drawing.Size]::new(560,50)
+    $features.Text = "✓ LOW LATENCY POWER PLAN`r`n✓ NETWORK & TCP OPTIMIZATION`r`n✓ FIVEM PRIORITY & TIMER RESOLUTION"
+    $features.Location = [Drawing.Point]::new(30,105)
+    $features.Size = [Drawing.Size]::new(370,72)
     $panel.Controls.Add($features)
 
     $progress = [Windows.Forms.ProgressBar]::new()
-    $progress.Location = [Drawing.Point]::new(30,163)
-    $progress.Size = [Drawing.Size]::new(560,8)
+    $progress.Location = [Drawing.Point]::new(30,194)
+    $progress.Size = [Drawing.Size]::new(370,8)
     $panel.Controls.Add($progress)
 
     $status = [Windows.Forms.Label]::new()
     $status.Text = 'Enter the access key to continue.'
     $status.ForeColor = [Drawing.Color]::FromArgb(155,164,184)
-    $status.Location = [Drawing.Point]::new(30,181)
-    $status.Size = [Drawing.Size]::new(560,24)
+    $status.Location = [Drawing.Point]::new(30,214)
+    $status.Size = [Drawing.Size]::new(370,42)
     $panel.Controls.Add($status)
 
     $button = [Windows.Forms.Button]::new()
-    $button.Text = 'APPLY JUSTIN SETTING'
-    $button.Location = [Drawing.Point]::new(30,211)
-    $button.Size = [Drawing.Size]::new(560,36)
+    $button.Text = 'LOGIN & APPLY SETTING'
+    $button.Location = [Drawing.Point]::new(30,266)
+    $button.Size = [Drawing.Size]::new(370,43)
     $button.FlatStyle = 'Flat'
     $button.FlatAppearance.BorderSize = 0
-    $button.BackColor = [Drawing.Color]::FromArgb(90,110,255)
+    $button.BackColor = [Drawing.Color]::FromArgb(65,67,74)
     $button.ForeColor = [Drawing.Color]::White
     $panel.Controls.Add($button)
+
+    $mini = [Windows.Forms.Label]::new()
+    $mini.Text = 'LOW PING     STABLE     OPTIMIZED'
+    $mini.Font = [Drawing.Font]::new('Segoe UI Semibold',8)
+    $mini.ForeColor = [Drawing.Color]::FromArgb(185,188,197)
+    $mini.Location = [Drawing.Point]::new(82,326)
+    $mini.AutoSize = $true
+    $panel.Controls.Add($mini)
+
+    # Right-side monochrome gaming hero. Drawn locally so the remote script
+    # stays self-contained and does not download untrusted image assets.
+    $hero = [Windows.Forms.Panel]::new()
+    $hero.Location = [Drawing.Point]::new(500,20)
+    $hero.Size = [Drawing.Size]::new(535,540)
+    $hero.BackColor = [Drawing.Color]::FromArgb(10,11,14)
+    $hero.Visible = $false
+    $hero.Add_Paint({
+        param($sender,$e)
+        $g=$e.Graphics
+        $g.SmoothingMode=[Drawing.Drawing2D.SmoothingMode]::AntiAlias
+        $rect=[Drawing.Rectangle]::new(0,0,$sender.Width,$sender.Height)
+        $brush=[Drawing.Drawing2D.LinearGradientBrush]::new($rect,[Drawing.Color]::FromArgb(48,50,57),[Drawing.Color]::FromArgb(4,5,7),45)
+        $g.FillRectangle($brush,$rect); $brush.Dispose()
+        $pen=[Drawing.Pen]::new([Drawing.Color]::FromArgb(55,220,220,230),1)
+        for($i=0;$i -lt 14;$i++){
+            $x=($i*83)%535; $y=($i*137)%540
+            $g.DrawLine($pen,$x,$y,[Math]::Min(535,$x+150),[Math]::Max(0,$y-100))
+            $g.DrawEllipse($pen,$x,$y,3,3)
+        }
+        $pen.Dispose()
+    })
+    $form.Controls.Add($hero)
+
+    $heroTop = [Windows.Forms.Label]::new()
+    $heroTop.Text = 'MAX PERFORMANCE'
+    $heroTop.Font = [Drawing.Font]::new('Segoe UI Semibold',10)
+    $heroTop.ForeColor = [Drawing.Color]::Silver
+    $heroTop.Location = [Drawing.Point]::new(350,18)
+    $heroTop.AutoSize = $true
+    $hero.Controls.Add($heroTop)
+
+    $heroTitle = [Windows.Forms.Label]::new()
+    $heroTitle.Text = "PROJECT`r`nJUSTIN"
+    $heroTitle.Font = [Drawing.Font]::new('Segoe UI Black',44)
+    $heroTitle.ForeColor = [Drawing.Color]::WhiteSmoke
+    $heroTitle.Location = [Drawing.Point]::new(42,70)
+    $heroTitle.Size = [Drawing.Size]::new(450,125)
+    $hero.Controls.Add($heroTitle)
+
+    $heroSub = [Windows.Forms.Label]::new()
+    $heroSub.Text = 'NETWORK  •  SYSTEM  •  FIVEM'
+    $heroSub.Font = [Drawing.Font]::new('Segoe UI Semibold',12)
+    $heroSub.ForeColor = [Drawing.Color]::FromArgb(185,190,202)
+    $heroSub.Location = [Drawing.Point]::new(48,202)
+    $heroSub.AutoSize = $true
+    $hero.Controls.Add($heroSub)
+
+    $statusCard = [Windows.Forms.Panel]::new()
+    $statusCard.Location = [Drawing.Point]::new(48,278)
+    $statusCard.Size = [Drawing.Size]::new(430,155)
+    $statusCard.BackColor = [Drawing.Color]::FromArgb(185,12,13,16)
+    $hero.Controls.Add($statusCard)
+
+    $statusTitle = [Windows.Forms.Label]::new()
+    $statusTitle.Text = 'JUSTIN NETWORK TWEAK'
+    $statusTitle.Font = [Drawing.Font]::new('Segoe UI Semibold',12)
+    $statusTitle.Location = [Drawing.Point]::new(22,15)
+    $statusTitle.AutoSize = $true
+    $statusCard.Controls.Add($statusTitle)
+
+    $checks = [Windows.Forms.Label]::new()
+    $checks.Text = "☑ LOW PING`r`n☑ STABLE CONNECTION`r`n☑ SMOOTH GAMEPLAY`r`n☑ INPUT RESPONSE"
+    $checks.Font = [Drawing.Font]::new('Segoe UI Semibold',10)
+    $checks.ForeColor = [Drawing.Color]::Gainsboro
+    $checks.Location = [Drawing.Point]::new(24,48)
+    $checks.Size = [Drawing.Size]::new(220,92)
+    $statusCard.Controls.Add($checks)
+
+    $gauge = [Windows.Forms.Label]::new()
+    $gauge.Text = "100%`r`nREADY"
+    $gauge.TextAlign = 'MiddleCenter'
+    $gauge.Font = [Drawing.Font]::new('Segoe UI Black',18)
+    $gauge.ForeColor = [Drawing.Color]::White
+    $gauge.Location = [Drawing.Point]::new(285,52)
+    $gauge.Size = [Drawing.Size]::new(120,65)
+    $statusCard.Controls.Add($gauge)
+
+    $heroFooter = [Windows.Forms.Label]::new()
+    $heroFooter.Text = 'RESPONSIVE  ⚡  STABLE  ⚡  SAFE PROFILE'
+    $heroFooter.Font = [Drawing.Font]::new('Segoe UI Semibold',9)
+    $heroFooter.ForeColor = [Drawing.Color]::Silver
+    $heroFooter.Location = [Drawing.Point]::new(80,480)
+    $heroFooter.AutoSize = $true
+    $hero.Controls.Add($heroFooter)
 
     $timer = [Windows.Forms.Timer]::new()
     $timer.Interval = 500
